@@ -1,0 +1,38 @@
+{
+  "name": "run-in-batch",
+  "version": "1.0.0",
+  "description": "Run your task like api calls in batch",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jsbisht/run-in-batch.git"
+  },
+  "keywords": [
+    "api-calls",
+    "batch",
+    "parallel",
+    "asynchronous",
+    "jobs",
+    "tasks",
+    "nodejs",
+    "generator",
+    "promises",
+    "sequence",
+    "series",
+    "concurrent",
+    "options",
+    "callback"
+  ],
+  "author": "jsbisht",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jsbisht/run-in-batch/issues"
+  },
+  "homepage": "https://github.com/jsbisht/run-in-batch#readme",
+  "devDependencies": {
+    "jest": "^26.0.1"
+  }
+}
