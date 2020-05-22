@@ -1,6 +1,13 @@
 const chunk = require("../code/chunk");
 
 describe("test if chunk creation", () => {
+  test("batch_size is not passed, all items should be returned", () => {
+    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    const chunks = chunk(arr);
+    const chunks_size = chunks.next().value.length;
+    expect(chunks_size).toEqual(arr.length);
+  });
+
   test("integer array chunking", () => {
     const batch_size = 3;
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
