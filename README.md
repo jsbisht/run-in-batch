@@ -14,6 +14,12 @@ Run your task like api calls in batch
 
 ## Usage
 
+### Specify how to execute each task
+
+**onTaskRun**
+
+- If not specified, empty array is returned
+
 ### Set number of parallel tasks i.e. the batch size
 
 **batch_size** (Optional)
