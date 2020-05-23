@@ -7,7 +7,7 @@
  */
 function* chunk(arr = [], batch_size) {
   // TODO change the check
-  if (isNaN(batch_size)) return arr;
+  if (isNaN(batch_size)) yield arr;
 
   const batch_count = Math.ceil(arr.length / batch_size);
   for (let i = 0; i < batch_count; i++) {
