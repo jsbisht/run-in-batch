@@ -1,4 +1,7 @@
+require("./polyfill");
+
 const chunk = require("./chunk");
+const { PARALLEL, SERIES } = require("./constants");
 
 async function run(tasks, options = {}) {
   let results = [];
@@ -14,12 +17,12 @@ async function run(tasks, options = {}) {
 }
 
 async function runBatch(batch, options) {
-  const { onTaskRun } = options;
+  const { onTaskRun, runType = PARALLEL } = options;
   if (!onTaskRun) return [];
 
-  const tasks = batch;
-  tasks.map((task) => onTaskRun(task));
-  return await Promise.all(tasks);
+  const tasks = batch.map((task) => onTaskRun(task));
+  if (runType === PARALLEL) return await Promise.all(tasks);
+  if (runType === SERIES) return await Promise.series(tasks);
 }
 
 async function postRunBatch(batch, options) {

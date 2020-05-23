@@ -11,7 +11,7 @@ Run your task like api calls in batch
 - Callback function post completion of each batch
 - Return list of failed jobs post completion
 
-## Usage
+## options
 
 ### Execute task in a batch parallely or sequentially
 
