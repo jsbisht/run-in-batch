@@ -92,4 +92,22 @@ describe("test running in batch", () => {
     await run(userIds, options);
     expect(spy).toHaveBeenCalled();
   });
+
+  test("if runType is race, batch should execute task under timeout", async () => {
+    const spy = jest.spyOn(Promise, "raceAll");
+    const userIds = [
+      { id: 1, time: 150 },
+      { id: 2, time: 250 },
+      { id: 3, time: 200 },
+      { id: 4, time: 50 },
+      { id: 5, time: 100 }
+    ];
+    const options = {
+      batch_size: 5,
+      onTaskRun: (user) => getUserName(user.id, user.time),
+      task_timeout: 200
+    };
+    await run(userIds, options);
+    expect(spy).toHaveBeenCalled();
+  });
 });

@@ -1,5 +1,8 @@
 module.exports = {
   /* runType */
   PARALLEL: "parallel",
-  SERIES: "series"
+  SERIES: "series",
+  RACE: "race",
+  /* values */
+  TIMEOUT: "timeout"
 };
