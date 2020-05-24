@@ -1,5 +1,6 @@
 const run = require("../code/run");
 const request = require("../__mocks__/request");
+const { PARALLEL, SERIES } = require("../code/constants");
 
 function getUserName(userID, responseTime = 0) {
   return new Promise((resolve) => {
@@ -34,6 +35,16 @@ describe("test running in batch", () => {
     expect(results.length).toEqual(13);
   });
 
+  test("if onTaskRun and batch_size is specified, check resoled values", async () => {
+    const userIds = [1, 2, 3, 4, 5];
+    const options = {
+      batch_size: 5,
+      onTaskRun: (userID) => getUserName(userID)
+    };
+    const results = await run(userIds, options);
+    expect(results).toEqual(["Alex", "Bob", "Carol", "Dennis", "Eric"]);
+  });
+
   test("if batch_size is specified, tasks execute in batches", async () => {
     const onBatchComplete = jest.fn(() => {});
     const userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
@@ -47,32 +58,38 @@ describe("test running in batch", () => {
   });
 
   test("if runType is serial, batch should execute task serially", async () => {
-    const userIds = [1, 2, 3, 4, 5];
+    const spy = jest.spyOn(Promise, "series");
+    const userIds = [
+      { id: 1, time: 150 },
+      { id: 2, time: 250 },
+      { id: 3, time: 200 },
+      { id: 4, time: 50 },
+      { id: 5, time: 100 }
+    ];
     const options = {
       batch_size: 5,
-      onTaskRun: (userID) => getUserName(userID)
+      onTaskRun: (user) => getUserName(user.id, user.time),
+      runType: SERIES
     };
-    const results = await run(userIds, options);
-    expect(results).toEqual(["Alex", "Bob", "Carol", "Dennis", "Eric"]);
+    await run(userIds, options);
+    expect(spy).toHaveBeenCalled();
   });
 
-  // test("if runType is parallel, batch should execute task parallely", async () => {
-  //   expect.assertions(1);
-  //   jest.useFakeTimers();
-  //   const userIds = [
-  //     { id: 1, time: 150 },
-  //     { id: 2, time: 250 },
-  //     { id: 3, time: 200 },
-  //     { id: 4, time: 50 },
-  //     { id: 5, time: 100 }
-  //   ];
-  //   const options = {
-  //     batch_size: 5,
-  //     onTaskRun: (user) => getUserName(user.id, user.time)
-  //   };
-  //   jest.runAllTimers();
-  //   const results = await run(userIds, options);
-  //   // expect(results).toEqual(["Dennis", "Eric", "Alex", "Carol", "Bob"]);
-  //   expect(results).toEqual(["Alex", "Bob", "Carol", "Dennis", "Eric"]);
-  // });
+  test("if runType is parallel, batch should execute task parallely", async () => {
+    const spy = jest.spyOn(Promise, "all");
+    const userIds = [
+      { id: 1, time: 150 },
+      { id: 2, time: 250 },
+      { id: 3, time: 200 },
+      { id: 4, time: 50 },
+      { id: 5, time: 100 }
+    ];
+    const options = {
+      batch_size: 5,
+      onTaskRun: (user) => getUserName(user.id, user.time),
+      runType: PARALLEL
+    };
+    await run(userIds, options);
+    expect(spy).toHaveBeenCalled();
+  });
 });
