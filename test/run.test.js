@@ -105,9 +105,10 @@ describe("test running in batch", () => {
     const options = {
       batch_size: 5,
       onTaskRun: (user) => getUserName(user.id, user.time),
-      task_timeout: 200
+      task_timeout: 225
     };
-    await run(userIds, options);
+    const results = await run(userIds, options);
     expect(spy).toHaveBeenCalled();
+    expect(results).toEqual(["Alex", "timeout", "Carol", "Dennis", "Eric"]);
   });
 });

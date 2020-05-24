@@ -7,10 +7,8 @@ Run your task like api calls in batch
 - Run either parallely or serially
 - Set number of tasks in one batch
 - Set timeout for each task
-- Set timeout for each batch
 - Callback function for completion of each task
 - Callback function post completion of each batch
-- Return list of failed jobs post completion
 
 ## options
 
@@ -40,15 +38,6 @@ If timeout happens, task would return:
 **task_timeout_val**
 
 Default value: "timeout"
-
-### Set timeout for each batch
-
-**batch_timeout** (Optional)
-
-- If not specified, all batches will run indefinately
-- If specified, each batch races against this timeout.
-
-If timeout happens, batch would return ...
 
 ### Callback function for completion of each task
 
