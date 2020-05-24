@@ -5,9 +5,9 @@ const { PARALLEL, SERIES, RACE, TIMEOUT } = require("./constants");
 
 async function run(tasks, options = {}) {
   let results = [];
-  const { batch_size } = options;
+  const { batchSize } = options;
 
-  const batches = chunk(tasks, batch_size);
+  const batches = chunk(tasks, batchSize);
   for (const batch of batches) {
     const result = await runBatch(batch, options);
     results = results.concat(result);
@@ -18,11 +18,11 @@ async function run(tasks, options = {}) {
 }
 
 async function runBatch(batch, options) {
-  const { onTaskRun, task_timeout, task_timeout_val = TIMEOUT } = options;
+  const { onTaskRun, taskTimeout, taskTimeoutVal = TIMEOUT } = options;
   let { runType = PARALLEL } = options;
 
   if (!onTaskRun) return [];
-  if (task_timeout) runType = RACE;
+  if (taskTimeout) runType = RACE;
 
   const tasks = batch.map((task) => onTaskRun(task));
 
@@ -32,7 +32,7 @@ async function runBatch(batch, options) {
     case SERIES:
       return await Promise.series(tasks);
     case RACE:
-      return await Promise.raceAll(tasks, task_timeout, task_timeout_val);
+      return await Promise.raceAll(tasks, taskTimeout, taskTimeoutVal);
   }
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "run-in-batch",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Run your task like api calls in batch",
   "main": "index.js",
   "scripts": {

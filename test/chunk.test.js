@@ -1,7 +1,7 @@
 const chunk = require("../code/chunk");
 
 describe("test if chunk creation", () => {
-  test("batch_size is not passed, all items should be returned", () => {
+  test("batchSize is not passed, all items should be returned", () => {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     const chunks = chunk(arr);
     const chunks_size = chunks.next().value.length;
@@ -9,9 +9,9 @@ describe("test if chunk creation", () => {
   });
 
   test("integer array chunking", () => {
-    const batch_size = 3;
+    const batchSize = 3;
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
-    const chunks = chunk(arr, batch_size);
+    const chunks = chunk(arr, batchSize);
 
     expect(chunks.next().value).toEqual(expect.arrayContaining([1, 2, 3]));
     expect(chunks.next().value).toEqual(expect.arrayContaining([4, 5, 6]));
@@ -21,7 +21,7 @@ describe("test if chunk creation", () => {
   });
 
   test("object array chunking", () => {
-    const batch_size = 3;
+    const batchSize = 3;
     const arr = [
       { x: 1 },
       { x: 2 },
@@ -35,9 +35,9 @@ describe("test if chunk creation", () => {
       { x: 10 },
       { x: 11 },
       { x: 12 },
-      { x: 13 },
+      { x: 13 }
     ];
-    const chunks = chunk(arr, batch_size);
+    const chunks = chunk(arr, batchSize);
 
     expect(chunks.next().value).toEqual(
       expect.arrayContaining([{ x: 1 }, { x: 2 }, { y: 3 }])

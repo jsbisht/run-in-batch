@@ -25,31 +25,31 @@ describe("test running in batch", () => {
     expect(results).toEqual([1, 2, 3]);
   });
 
-  test("if onTaskRun and batch_size is specified, tasks resolve", async () => {
+  test("if onTaskRun and batchSize is specified, tasks resolve", async () => {
     const userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     const options = {
-      batch_size: 3,
+      batchSize: 3,
       onTaskRun: (value) => Promise.resolve(value)
     };
     const results = await run(userIds, options);
     expect(results.length).toEqual(13);
   });
 
-  test("if onTaskRun and batch_size is specified, check resoled values", async () => {
+  test("if onTaskRun and batchSize is specified, check resoled values", async () => {
     const userIds = [1, 2, 3, 4, 5];
     const options = {
-      batch_size: 5,
+      batchSize: 5,
       onTaskRun: (userID) => getUserName(userID)
     };
     const results = await run(userIds, options);
     expect(results).toEqual(["Alex", "Bob", "Carol", "Dennis", "Eric"]);
   });
 
-  test("if batch_size is specified, tasks execute in batches", async () => {
+  test("if batchSize is specified, tasks execute in batches", async () => {
     const onBatchComplete = jest.fn(() => {});
     const userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     const options = {
-      batch_size: 3,
+      batchSize: 3,
       onTaskRun: (userID) => getUserName(userID),
       onBatchComplete
     };
@@ -67,7 +67,7 @@ describe("test running in batch", () => {
       { id: 5, time: 100 }
     ];
     const options = {
-      batch_size: 5,
+      batchSize: 5,
       onTaskRun: (user) => getUserName(user.id, user.time),
       runType: SERIES
     };
@@ -85,7 +85,7 @@ describe("test running in batch", () => {
       { id: 5, time: 100 }
     ];
     const options = {
-      batch_size: 5,
+      batchSize: 5,
       onTaskRun: (user) => getUserName(user.id, user.time),
       runType: PARALLEL
     };
@@ -103,12 +103,32 @@ describe("test running in batch", () => {
       { id: 5, time: 100 }
     ];
     const options = {
-      batch_size: 5,
+      batchSize: 5,
       onTaskRun: (user) => getUserName(user.id, user.time),
-      task_timeout: 225
+      taskTimeout: 225
     };
     const results = await run(userIds, options);
     expect(spy).toHaveBeenCalled();
     expect(results).toEqual(["Alex", "timeout", "Carol", "Dennis", "Eric"]);
+  });
+
+  test("if runType is race, failed task should return the taskTimeoutVal", async () => {
+    const spy = jest.spyOn(Promise, "raceAll");
+    const userIds = [
+      { id: 1, time: 150 },
+      { id: 2, time: 250 },
+      { id: 3, time: 200 },
+      { id: 4, time: 50 },
+      { id: 5, time: 100 }
+    ];
+    const options = {
+      batchSize: 5,
+      onTaskRun: (user) => getUserName(user.id, user.time),
+      taskTimeout: 225,
+      taskTimeoutVal: "failed"
+    };
+    const results = await run(userIds, options);
+    expect(spy).toHaveBeenCalled();
+    expect(results).toEqual(["Alex", "failed", "Carol", "Dennis", "Eric"]);
   });
 });
