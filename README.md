@@ -136,3 +136,9 @@ const options = {
 const results = await run(userIds, options);
 // "Alex", "timeout", "Carol", "Dennis", "Eric"
 ```
+
+### note
+
+The task array passed is spliced directly to optmise memory usage. If you intend to use it later, please clone it before calling `run`.
+
+Also, ES generators are used to fetch batches.

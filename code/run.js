@@ -32,7 +32,12 @@ async function runBatch(batch, options) {
     case SERIES:
       return await Promise.series(tasks);
     case RACE:
-      return await Promise.raceAll(tasks, taskTimeout, taskTimeoutVal);
+      return await Promise.raceAll(
+        tasks,
+        taskTimeout,
+        taskTimeoutVal,
+        options.runType
+      );
   }
 }
 

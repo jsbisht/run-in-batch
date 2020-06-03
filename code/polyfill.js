@@ -1,3 +1,5 @@
+const { PARALLEL, SERIES, RACE, TIMEOUT } = require("./constants");
+
 function loadPolyfills() {
   // https://decembersoft.com/posts/promises-in-serial-with-array-reduce/
   Promise.series = function asyncSeries(tasks) {
@@ -13,12 +15,16 @@ function loadPolyfills() {
       setTimeout(resolve.bind(null, val), t);
     });
   };
-  Promise.raceAll = function (promises, timeoutTime, timeoutVal) {
-    return Promise.all(
-      promises.map((p) => {
-        return Promise.race([p, Promise.delay(timeoutTime, timeoutVal)]);
-      })
-    );
+  Promise.raceAll = function (promises, timeoutTime, timeoutVal, runType) {
+    const tasks = promises.map((p) => {
+      return Promise.race([p, Promise.delay(timeoutTime, timeoutVal)]);
+    });
+
+    if (runType === SERIES) {
+      return Promise.series(tasks);
+    } else {
+      return Promise.all(tasks);
+    }
   };
 }
 
