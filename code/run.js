@@ -26,16 +26,14 @@ async function runBatch(batch, options) {
   } = options;
   let { runType = PARALLEL } = options;
 
+  if (onBatchRun) {
+    const result = await onBatchRun(batch);
+    return result;
+  }
   if (!onTaskRun) return [];
   if (taskTimeout) runType = RACE;
 
-  let tasks;
-  // TODO write tests for this
-  if (onBatchRun) {
-    return onBatchRun();
-  } else {
-    tasks = batch.map((task) => onTaskRun(task));
-  }
+  const tasks = batch.map((task) => onTaskRun(task));
 
   switch (runType) {
     case PARALLEL:

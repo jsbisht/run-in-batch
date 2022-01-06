@@ -46,6 +46,13 @@ Default value: "timeout"
 - If not specified, empty array is returned
 - If specified, this method is run for each task
 
+### Callback function for completion of each batch
+
+**onBatchRun** (Optional)
+
+- If not specified, you can opt to use `onTaskRun` for each item individually.
+- If specified, this method is run for each batch instead of processing each item individually.
+
 ### Callback function post completion of each batch
 
 **onBatchComplete** (Optional)

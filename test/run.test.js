@@ -16,6 +16,25 @@ describe("test running in batch", () => {
     expect(result).resolves.toEqual([]);
   });
 
+  test("if onBatchRun is specified, tasks resolve", async () => {
+    const arr = [1, 2, 3];
+    const options = {
+      onBatchRun: (value) => Promise.resolve(value)
+    };
+    const results = await run(arr, options);
+    expect(results).toEqual([1, 2, 3]);
+  });
+
+  test("if onBatchRun and batchSize is specified, tasks resolve", async () => {
+    const userIds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+    const options = {
+      batchSize: 3,
+      onTaskRun: (value) => Promise.resolve(value)
+    };
+    const results = await run(userIds, options);
+    expect(results.length).toEqual(13);
+  });
+
   test("if onTaskRun is specified, tasks resolve", async () => {
     const arr = [1, 2, 3];
     const options = {
