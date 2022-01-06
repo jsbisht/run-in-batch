@@ -20,7 +20,20 @@ npm install --save run-in-batch
 
 ## examples
 
-To run tasks in batch while each batch tasks running concurrently:
+To perform one operation per batch, use 'onBatchRun`:
+
+```js
+const run = require("run-in-batch");
+
+const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+const options = {
+  batchSize: 3,
+  onBatchRun: (value) => Promise.resolve(value)
+};
+const results = await run(arr, options);
+```
+
+To perform one operation for each item in the batch use 'onTaskRun`, while each batch tasks running **concurrently**:
 
 ```js
 const run = require("run-in-batch");
@@ -33,7 +46,7 @@ const options = {
 const results = await run(arr, options);
 ```
 
-To run tasks in batch while each batch tasks run sequentially:
+To perform one operation for each item in the batch use 'onTaskRun`, while each batch tasks running **sequentially**:
 
 ```js
 const run = require("run-in-batch");
