@@ -10,56 +10,6 @@ Run your task like api calls in batch
 - Callback function for completion of each task
 - Callback function post completion of each batch
 
-## options
-
-### Execute task in a batch parallely or sequentially
-
-**runType** (Default: parallel)
-
-- parallel
-- series
-
-### Set number of tasks in one batch
-
-**batchSize** (Optional)
-
-- If not specified, all tasks will execute concurrently
-- If specified, tasks are chunked by `batchSize`
-
-### Set timeout for each task
-
-**taskTimeout** (Optional)
-
-- If not specified, all tasks will run indefinately
-- If specified, each task races against this timeout. Value specified is considered as milliseconds.
-
-If timeout happens, task would return:
-
-**taskTimeoutVal**
-
-Default value: "timeout"
-
-### Callback function for completion of each task
-
-**onTaskRun** (Optional)
-
-- If not specified, empty array is returned
-- If specified, this method is run for each task
-
-### Callback function for completion of each batch
-
-**onBatchRun** (Optional)
-
-- If not specified, you can opt to use `onTaskRun` for each item individually.
-- If specified, this method is run for each batch instead of processing each item individually.
-
-### Callback function post completion of each batch
-
-**onBatchComplete** (Optional)
-
-- If not specified, no error is thrown
-- If specified, this method is run post each batch completion
-
 ## install
 
 To install the latest version:
@@ -143,6 +93,56 @@ const options = {
 const results = await run(userIds, options);
 // "Alex", "timeout", "Carol", "Dennis", "Eric"
 ```
+
+## options
+
+### Execute task in a batch parallely or sequentially
+
+**runType** (Default: parallel)
+
+- parallel
+- series
+
+### Set number of tasks in one batch
+
+**batchSize** (Optional)
+
+- If not specified, all tasks will execute concurrently
+- If specified, tasks are chunked by `batchSize`
+
+### Set timeout for each task
+
+**taskTimeout** (Optional)
+
+- If not specified, all tasks will run indefinately
+- If specified, each task races against this timeout. Value specified is considered as milliseconds.
+
+If timeout happens, task would return:
+
+**taskTimeoutVal**
+
+Default value: "timeout"
+
+### Callback function for completion of each task
+
+**onTaskRun** (Optional)
+
+- If not specified, empty array is returned
+- If specified, this method is run for each task
+
+### Callback function for completion of each batch
+
+**onBatchRun** (Optional)
+
+- If not specified, you can opt to use `onTaskRun` for each item individually.
+- If specified, this method is run for each batch instead of processing each item individually.
+
+### Callback function post completion of each batch
+
+**onBatchComplete** (Optional)
+
+- If not specified, no error is thrown
+- If specified, this method is run post each batch completion
 
 ### note
 
