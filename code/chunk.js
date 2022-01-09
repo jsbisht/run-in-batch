@@ -6,6 +6,9 @@
  * @param {Number} batchSize Batch size
  */
 function* chunk(arr = [], batchSize) {
+  // This is a check if object, map, etc is passed
+  if (!Array.isArray(arr)) throw new TypeError("Pass a valid array");
+
   // TODO change the check
   if (isNaN(batchSize)) yield arr;
 

@@ -1,6 +1,14 @@
 const chunk = require("../code/chunk");
 
 describe("test if chunk creation", () => {
+  test("valid array should be passed", () => {
+    expect(chunk({}).next).toThrow(Error);
+  });
+
+  test("valid array should be passed", () => {
+    expect(chunk(new Map()).next).toThrow(Error);
+  });
+
   test("batchSize is not passed, all items should be returned", () => {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
     const chunks = chunk(arr);
